@@ -1,3 +1,5 @@
+import random
+from collections import Counter
 def near_labels(db):
     '''
     Performs label propagation through the network of nodes and clusters
