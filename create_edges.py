@@ -18,7 +18,7 @@ def pairwise_dists(x, y):
     return  np.sqrt(dists)
 
 
-def create_edges(db, threshold):
+def create_edges(db, threshold=0.4):
     '''
     Updates the list of nodes by including the neighbors to it. Neighbors are identified
     as nodes that's euclidian distances are within a certain threshold value.
