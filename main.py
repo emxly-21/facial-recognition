@@ -25,8 +25,6 @@ shape_predictor = models["shape predict"]
 detections = list(face_detect(pic))
 print(detections)  # list of shape n for n faces
 
-from matplotlib.patches import Rectangle
-
 fig, ax = plt.subplots()
 ax.imshow(pic)
 
