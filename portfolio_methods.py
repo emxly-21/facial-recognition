@@ -1,3 +1,5 @@
+import numpy as np
+
 def update_profile(des, name, db):
     '''
     Updates the profile of the recognized person by adding the descriptor
@@ -6,30 +8,29 @@ def update_profile(des, name, db):
     Parameters
     ----------
     des : numpy.ndarray[numpy.float32]
-        128-dimensional descriptor taken from the image of the recognized
+        (128,)-dimensional descriptor taken from the image of the recognized
         person's face
 
     name : string
         Name of the recognized person
 
-    db : Dictionary[string, Tuple[string, List[numpy.ndarray[numpy.float32]], numpy.ndarray[numpy.float32]]]
+    db : Dictionary[string, Tuple[string, numpy.ndarray[numpy.ndarray[numpy.float32]], numpy.ndarray[numpy.float32]]]
         Database containing current profiles, with the keys as the people's
         names and the values as tuples with their (names, descriptors,
-        mean descriptors).
+        mean descriptors). Each descriptors list is (N, 128), where N is
+        the number of descriptors currently in each person's list.
 
     Returns
     -------
-    Dictionary[string, Tuple[string, List[numpy.ndarray[numpy.float32]], numpy.ndarray[numpy.float32]]]
+    Dictionary[string, Tuple[string, numpy.ndarray[numpy.ndarray[numpy.float32]], numpy.ndarray[numpy.float32]]]
         Updated database with descriptor from current picture added into the
-        recognized person's portfolio.
+        recognized person's portfolio. Each descriptors list is (N, 128), where N is
+        the number of descriptors currently in each person's list.
 
     '''
     cur_name, des_list, mean_des = db[name]
-    des_list.append(des)
-    for val in range(len(mean_des)):
-        mean_des[val] *= len(des_list - 1)
-        mean_des[val] += des[val]
-        mean_des[val] /= len(des_list)
+    des_list = np.vstack((des_list, des))
+    mean_des = np.mean(des_list, axis=0)
     value = (name, des_list, mean_des)
     db[name] = value
     return db
@@ -43,24 +44,26 @@ def create_portfolio(des, name, db):
     Parameters
     ----------
     des : numpy.ndarray[numpy.float32]
-        128-dimensional descriptor taken from the image of the recognized
-        person's face
+        (128,)-dimensional descriptor taken from the image of the recognized
+        person's face.
 
     name : string
-        Name of the recognized person
+        Name of the recognized person.
 
     db : Dictionary[string, Tuple[string, numpy.ndarray[numpy.ndarray[numpy.float32]], numpy.ndarray[numpy.float32]]]
         Database containing current profiles, with the keys as the people's
         names and the values as tuples with their (names, descriptors,
-        mean descriptors).
+        mean descriptors). Each descriptors list is (N, 128), where N is
+        the number of descriptors currently in each person's list.
 
     Returns
     -------
-    Dictionary[string, Tuple[string, List[numpy.ndarray[numpy.float32]], numpy.ndarray[numpy.float32]]]
+    Dictionary[string, Tuple[string, numpy.ndarray[numpy.ndarray[numpy.float32]], numpy.ndarray[numpy.float32]]]
         Updated database with descriptor from current picture added into the
-        recognized person's portfolio.
+        recognized person's portfolio. Each descriptors list is (N, 128), where N is
+        the number of descriptors currently in each person's list.
 
     '''
-    value = (name, [des], des)
+    value = (name, np.array([des]), des)
     db[name] = value
     return db
