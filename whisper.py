@@ -11,7 +11,7 @@ def whispers():
     nodes=near_labels(nodes)
     adj=pairwise_dists(database,database)
     plot_graph(nodes,adj)
-
+whispers()
 '''def find_adj(nodes):
     adj=np.zeros(len(nodes)**2).reshape(len(nodes),len(nodes))
     for node in nodes:
