@@ -10,8 +10,9 @@ from dlib_models import models
 
 def saveImages():
     """
-    TODO: This docstring
-    :return:
+
+    Takes the saved images from the /Images folder, finds the faces, creates vectors to represent the faces, and then saves them to the database.pkl file
+
     """
     dict = {}
     try:
