@@ -1,3 +1,5 @@
+import numpy as np
+from node import Node
 def pairwise_dists(x, y):
     """ Computing pairwise distances using memory-efficient
         vectorization.
@@ -27,7 +29,7 @@ def create_edges(db, threshold=0.4):
     :return: list of the nodes with an updates list of neighbors
     '''
     nodes = []
-    distances = pairwise_dist(db,db)
+    distances = pairwise_dists(db,db)
     distances = distances < threshold
     index = np.argwhere(distances)
     for i in range(len(distances)):
