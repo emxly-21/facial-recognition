@@ -29,7 +29,9 @@ print(detections)  # list of shape n for n faces
 fig, ax = plt.subplots()
 ax.imshow(pic)
 
-database = {}
+with open("database.pkl", mode="rb") as opened_file:
+    database = pickle.load(opened_file)
+
 
 print("Number of faces detected: {}".format(len(detections)))
 for k, d in enumerate(detections):
