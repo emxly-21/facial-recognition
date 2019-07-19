@@ -16,6 +16,10 @@ def img_in_database(des, db, cutoff):
     string
     """
     for key in db:
-        if np.abs(des - d[key][2]) <= cutoff:
-            return d[key][0]
+        diff = des - db[key][2]
+        sqrd = diff ** 2
+        sum_sqrd = np.sum(sqrd)
+        mag = np.sqrt(sum_sqrd)
+        if mag < cutoff:
+            return db[key][0]
     return "not found"
