@@ -51,6 +51,7 @@ for faces in detections:
     plt.show()
 
 names = {}
+unknown_counter = 0
 for face in detections:
     # let's take a look as to what the descriptor is!!
     shape = shape_predictor(pic, face)
@@ -63,6 +64,10 @@ for face in detections:
     # plots name underneath square
     ax.text(face.left(), face.bottom(), name)
 
+    if name == "not found":
+        name = "Unknown" + str(unknown_counter)
+        unknown_counter += 1
+
     # adds to names dictionary
     names[name] = descriptor
 
@@ -70,9 +75,15 @@ add_profile = input("Would you like to add this picture to the database? [y/n]  
 if add_profile == "y":
     for name in names:
     # updates or creates a profile
-        if name != 'not found':
+        if "Unknown" not in name:
             database = portfolio.update_profile(names[name], name, database)
         else:
-            database = portfolio.create_profile(names[name], name, database)
+            add_name = input(f"Would you like to give a name for {name}? [y/n]  ")
+            if add_name == "y":
+                new_name = input(f"What is {name}'s name?   ")
+                database = portfolio.create_profile(names[name], new_name, database)
+            else:
+                print(f"Saving this person as {name}")
+                database = portfolio.create_profile(names[name], name, database)
 
 print(database)
