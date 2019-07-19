@@ -12,10 +12,9 @@ def near_labels(db):
 
     Returns
     -------
-    Dictionary[int, List[Node]]
-        Dictionary of Nodes based on which label they belong to, with the key
-        being the label and the value being the list of Nodes that belong to that
-        label.
+    List[Node]
+        Updated network of Nodes, with each Node's label updated based on
+        clustering.
     '''
     counts = [len(db)] # keeps track of how many unique labels there are
     counter = 1
@@ -24,8 +23,8 @@ def near_labels(db):
         rand_node = db[rand]
         neighbors = rand_node.neighbors
         highest_count = Counter(neighbors).most_common()[0][0]
-        if rand_node.id != highest_count:
-            rand_node.id = highest_count
+        if rand_node.label != highest_count:
+            rand_node.label = highest_count
             counts.append(counts[counter - 1] - 1)
         else:
             counts.append(counts[counter - 1])
@@ -34,8 +33,9 @@ def near_labels(db):
         rand_node = db[rand]
         neighbors = rand_node.neighbors
         highest_count = Counter(neighbors).most_common()[0][0]
-        if rand_node.id != highest_count:
-            rand_node.id = highest_count
+        if rand_node.label != highest_count:
+            rand_node.label = highest_count
             counts.append(counts[counter-1]-1)
         else:
             counts.append(counts[counter-1])
+    return db
