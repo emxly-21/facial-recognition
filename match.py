@@ -1,3 +1,4 @@
+import numpy as np
 def img_in_database(des, db, cutoff):
     """
     Returns the name of recognized face; if not recognized return 'not found'
