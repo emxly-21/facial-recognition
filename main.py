@@ -48,7 +48,6 @@ for faces in detections:
                              facecolor='none')
     # Add the patch to the Axes
     ax.add_patch(rect)
-    plt.show()
 
 names = {}
 unknown_counter = 0
@@ -61,15 +60,17 @@ for face in detections:
     cutoff = .5
     name = match.img_in_database(descriptor, database, cutoff)
 
-    # plots name underneath square
-    ax.text(face.left(), face.bottom(), name)
-
     if name == "not found":
         name = "Unknown" + str(unknown_counter)
         unknown_counter += 1
 
+    # plots name underneath square
+    ax.text(face.left()+(0.25*faces.width()), face.bottom()+(0.2*faces.height()), name, bbox=dict(facecolor='green', alpha=0.5))
+
     # adds to names dictionary
     names[name] = descriptor
+
+plt.show()
 
 add_profile = input("Would you like to add this picture to the database? [y/n]  ")
 if add_profile == "y":
