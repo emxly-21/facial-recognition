@@ -85,7 +85,7 @@ def plot_graph(graph, adj):
     pos = nx.spring_layout(g)
 
     # make a mapping that maps: node-lab -> color, for each unique label in the graph
-    color = list(iter(cm.Vega20b(np.linspace(0, 1, len(set(i.label for i in graph))))))
+    color = list(iter(cm.tab20b(np.linspace(0, 1, len(set(i.label for i in graph))))))
     color_map = dict(zip(sorted(set(i.label for i in graph)), color))
     colors = [color_map[i.label] for i in graph]  # the color for each node in the graph, according to the node's label
 
