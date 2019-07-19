@@ -37,6 +37,6 @@ def saveImages():
             key = str(item.stem)
             value = (str(item.stem), descriptor.reshape(-1,128), descriptor)
             dict[key] = value
-    dict["Unknown Counter"] = 0
+
     with open("database.pkl", mode="wb") as opened_file:
         pickle.dump(dict, opened_file)
