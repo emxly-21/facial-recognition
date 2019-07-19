@@ -11,8 +11,6 @@ download_model()
 download_predictor()
 from dlib_models import models
 
-
-
 # take the picture
 pic = take_picture()
 
@@ -30,6 +28,8 @@ from matplotlib.patches import Rectangle
 
 fig, ax = plt.subplots()
 ax.imshow(pic)
+
+database = {}
 
 print("Number of faces detected: {}".format(len(detections)))
 for k, d in enumerate(detections):
@@ -53,9 +53,16 @@ for face in detections:
     # let's take a look as to what the descriptor is!!
     shape = shape_predictor(pic, face)
     descriptor = np.array(face_rec_model.compute_face_descriptor(pic, shape))
-    print(descriptor)  # descriptor vector
-    print(descriptor.shape)
 
-    # compares descriptor to database through img_in_databse
+    # compares descriptor to database through img_in_database
+    cutoff = .5
+    name = img_in_database(descriptor, database, cutoff)
 
-    #
+    # plots name underneath square
+    ax.text(face.left(), face.bottom(), name)
+
+    # updates or creates a profile
+    if name != 'not found':
+        database = update_profile(descriptor, name, database)
+    else:
+        database = create_profile(descriptor, name, database)    #
