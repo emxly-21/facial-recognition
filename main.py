@@ -1,8 +1,9 @@
 # run this cell to setup matplotlib, and also import the very important take_picture function from camera!
-% matplotlib notebook
 import matplotlib.pyplot as plt
 from camera import take_picture
 import numpy as np
+import portfolio_methods as portfolio
+import match
 
 # run this cell to download the models from dlib
 from dlib_models import download_model, download_predictor, load_dlib_models
@@ -49,6 +50,7 @@ for faces in detections:
     ax.add_patch(rect)
     plt.show()
 
+names = {}
 for face in detections:
     # let's take a look as to what the descriptor is!!
     shape = shape_predictor(pic, face)
@@ -56,13 +58,21 @@ for face in detections:
 
     # compares descriptor to database through img_in_database
     cutoff = .5
-    name = img_in_database(descriptor, database, cutoff)
+    name = match.img_in_database(descriptor, database, cutoff)
 
     # plots name underneath square
     ax.text(face.left(), face.bottom(), name)
 
+    # adds to names dictionary
+    names[name] = descriptor
+
+add_profile = input("Would you like to add this picture to the database? [y/n]")
+if add_profile == "y":
+    for name in names:
     # updates or creates a profile
-    if name != 'not found':
-        database = update_profile(descriptor, name, database)
-    else:
-        database = create_profile(descriptor, name, database)    #
+        if name != 'not found':
+            database = portfolio.update_profile(names[name], name, database)
+        else:
+            database = portfolio.create_profile(names[name], name, database)
+
+print(database)

@@ -36,7 +36,7 @@ def update_profile(des, name, db):
     return db
 
 
-def create_portfolio(des, name, db):
+def create_profile(des, name, db):
     '''
     Creates the profile of the recognized person by adding the name of the
     person and descriptor for the current picture into the database.
