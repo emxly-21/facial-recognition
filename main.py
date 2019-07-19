@@ -51,7 +51,7 @@ for faces in detections:
     ax.add_patch(rect)
 
 names = {}
-unknown_counter = 0
+unknown_counter = database["Unknown Counter"]
 for face in detections:
     # let's take a look as to what the descriptor is!!
     shape = shape_predictor(pic, face)
