@@ -4,6 +4,7 @@ from camera import take_picture
 import numpy as np
 import portfolio_methods as portfolio
 import match
+import pickle
 
 # run this cell to download the models from dlib
 from dlib_models import download_model, download_predictor, load_dlib_models
@@ -86,3 +87,5 @@ if add_profile == "y":
                 database = portfolio.create_profile(names[name], name, database)
 
 print(database)
+with open("database.pkl", mode="wb") as opened_file:
+    pickle.dump(database, opened_file)
