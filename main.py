@@ -66,7 +66,7 @@ for face in detections:
     # adds to names dictionary
     names[name] = descriptor
 
-add_profile = input("Would you like to add this picture to the database? [y/n]")
+add_profile = input("Would you like to add this picture to the database? [y/n]  ")
 if add_profile == "y":
     for name in names:
     # updates or creates a profile
