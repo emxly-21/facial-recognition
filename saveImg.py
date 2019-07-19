@@ -3,17 +3,16 @@ from pathlib import Path
 import skimage.io as io
 import numpy as np
 import pickle
-from dlib_models import download_model, download_predictor, load_dlib_models
+from dlib_models import download_model, download_predictor, load_dlib_models, models
 download_model()
 download_predictor()
-from dlib_models import models
+
 
 def saveImages():
     """
-
     Takes the saved images from the /Images folder, finds the faces, creates vectors to represent the faces, and then saves them to the database.pkl file
-
     """
+
     dict = {}
     try:
         with open("database.pkl", mode="rb") as opened_file:
@@ -40,4 +39,3 @@ def saveImages():
             dict[key] = value
     with open("database.pkl", mode="wb") as opened_file:
         pickle.dump(dict, opened_file)
-
