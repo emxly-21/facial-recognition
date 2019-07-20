@@ -24,7 +24,7 @@ shape_predictor = models["shape predict"]
 
 # detects the face through corners
 detections = list(face_detect(pic))
-print(detections)  # list of shape n for n faces
+# print(detections)  # list of shape n for n faces
 
 fig, ax = plt.subplots()
 ax.imshow(pic)
@@ -33,6 +33,9 @@ ax.imshow(pic)
 
 with open("database.pkl", mode="rb") as opened_file:
     database = pickle.load(opened_file)
+    print("DATABASE")
+    print(database)
+
 
 
 print("Number of faces detected: {}".format(len(detections)))
@@ -53,7 +56,7 @@ for faces in detections:
     ax.add_patch(rect)
 
 names = {}
-unknown_counter = 0
+unknown_counter = database["Unknown Counter"]
 for face in detections:
     # let's take a look as to what the descriptor is!!
     shape = shape_predictor(pic, face)
@@ -61,11 +64,13 @@ for face in detections:
 
     # compares descriptor to database through img_in_database
     cutoff = .5
+    print("DATABASE")
+    print(database)
     name = match.img_in_database(descriptor, database, cutoff)
 
     if name == "not found":
         name = "Unknown" + str(unknown_counter)
-        unknown_counter += 1
+        database["Unknown Counter"] += 1
 
     # plots name underneath square
     ax.text(face.left()+(0.25*faces.width()), face.bottom()+(0.2*faces.height()), name, bbox=dict(facecolor='green', alpha=0.5))
@@ -93,6 +98,5 @@ if add_profile == "y":
                 print(f"Saving this person as {name}")
                 database = portfolio.create_profile(names[name], name, database)
 
-print(database)
 with open("database.pkl", mode="wb") as opened_file:
     pickle.dump(database, opened_file)
