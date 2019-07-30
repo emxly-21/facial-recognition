@@ -11,7 +11,7 @@ from dlib_models import download_model, download_predictor, load_dlib_models
 from dlib_models import models
 def main(database):
     namereturn=''
-    descreturn=None
+    descreturn=np.array([])
     ##download_model()
     ##download_predictor()
 
@@ -95,17 +95,17 @@ def main(database):
                 namereturn+=name
                 database = portfolio.update_profile(names[name], name, database)
             else:
-                return ("Unknown",descreturn)
-                # add_name = input(f"Would you like to give a name for {name}? [y/n]  ")
-                # if add_name == "y":
-                #     new_name = input(f"What is {name}'s name?   ")
-                #     if new_name in database:
-                #         database = portfolio.update_profile(names[name], new_name, database)
-                #     else:
-                #         database = portfolio.create_profile(names[name], new_name, database)
-                # else:
-                #     print(f"Saving this person as {name}")
-                #     database = portfolio.create_profile(names[name], name, database)
+                add_name = input(f"Would you like to give a name for {name}? [y/n]  ")
+                if add_name == "y":
+                    new_name = input(f"What is {name}'s name?   ")
+                    namereturn+=new_name
+                    if new_name in database:
+                        database = portfolio.update_profile(names[name], new_name, database)
+                    else:
+                        database = portfolio.create_profile(names[name], new_name, database)
+                else:
+                    print(f"Saving this person as {name}")
+                    database = portfolio.create_profile(names[name], name, database)
 
     with open("database.pkl", mode="wb") as opened_file:
         pickle.dump(database, opened_file)

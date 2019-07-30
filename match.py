@@ -18,8 +18,8 @@ def img_in_database(des, db, cutoff):
     """
     for key in db:
         if(key != "Unknown Counter"):
-            print("db[key]")
-            print(db[key])
+            #print("db[key]")
+            #print(db[key])
             diff = des - db[key][2]
             sqrd = diff ** 2
             sum_sqrd = np.sum(sqrd)
