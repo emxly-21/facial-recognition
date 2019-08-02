@@ -1,10 +1,14 @@
 # run this cell to setup matplotlib, and also import the very important take_picture function from camera!
+
 import matplotlib.pyplot as plt
 from camera import take_picture
 import numpy as np
 import portfolio_methods as portfolio
 import match
 import pickle
+
+
+
 
 # run this cell to download the models from dlib
 from dlib_models import download_model, download_predictor, load_dlib_models
@@ -86,30 +90,33 @@ def main():
         names[name] = descriptor
         descreturn = descriptor
         print(descreturn)
-    plt.show()
-
-    add_profile = input("Would you like to add this picture to the database? [y/n]  ")
-    if add_profile == "y":
-        for name in names:
-        # updates or creates a profile
-            if "Unknown" not in name:
-                namereturn+=name
-                database = portfolio.update_profile(names[name], name, database)
-            else:
-                add_name = input(f"Would you like to give a name for {name}? [y/n]  ")
-                if add_name == "y":
-                    new_name = input(f"What is {name}'s name?   ")
-                    namereturn+=new_name
-                    if new_name in database:
-                        database = portfolio.update_profile(names[name], new_name, database)
-                    else:
-                        database = portfolio.create_profile(names[name], new_name, database)
+    #plt.show()
+    return names, name, descreturn
+"""
+add_profile = input("Would you like to add this picture to the database? [y/n]  ")
+if add_profile == "y":
+    for name in names:
+    # updates or creates a profile
+        if "Unknown" not in name:
+            namereturn+=name
+            database = portfolio.update_profile(names[name], name, database)
+        else:
+            add_name = input(f"Would you like to give a name for {name}? [y/n]  ")
+            if add_name == "y":
+                new_name = input(f"What is {name}'s name?   ")
+                namereturn+=new_name
+                if new_name in database:
+                    database = portfolio.update_profile(names[name], new_name, database)
                 else:
-                    print(f"Saving this person as {name}")
-                    database = portfolio.create_profile(names[name], name, database)
+                    database = portfolio.create_profile(names[name], new_name, database)
+            else:
+                print(f"Saving this person as {name}")
+                database = portfolio.create_profile(names[name], name, database)
 
-    with open("database.pkl", mode="wb") as opened_file:
-        pickle.dump(database, opened_file)
-    return (namereturn,descreturn)
+with open("database.pkl", mode="wb") as opened_file:
+    pickle.dump(database, opened_file)
+"""
+
+
 if __name__ == '__main__':
     main()
